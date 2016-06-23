@@ -167,8 +167,8 @@
     <Content Include="js\modal.js" />
     <Content Include="js\theming.js" />
     <Content Include="packages.config" />
-    <Content Include="Scripts\powerbi.js" />
-    <Content Include="Scripts\powerbi.min.js" />
+    <Content Include="scripts\powerbi.js" />
+    <Content Include="scripts\powerbi.min.js" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="lib\fonts\fontawesome-webfont.eot" />
     <Content Include="lib\fonts\fontawesome-webfont.ttf" />
@@ -186,6 +186,7 @@
     </Content>
     <Content Include="Views\Shared\Reports.cshtml" />
     <Content Include="Views\Dashboard\Report.cshtml" />
+    <Content Include="Views\Dashboard\ReportListing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -226,6 +227,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReportListViewModel.cs" />
     <Compile Include="Models\ReportsViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

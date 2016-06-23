@@ -3,6 +3,7 @@ using Microsoft.PowerBI.Security;
 using Microsoft.Rest;
 using paas_demo.Models;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
@@ -61,6 +62,32 @@ namespace paas_demo.Controllers
                     Report = report,
                     AccessToken = embedToken.Generate(this.accessKey)
                 };
+
+                return View(viewModel);
+            }
+        }
+
+
+        public async Task<ActionResult> ReportListing()
+        {
+            var devToken = PowerBIToken.CreateDevToken(this.workspaceCollection, this.workspaceId);
+            using (var client = this.CreatePowerBIClient(devToken))
+            {
+                var reportsResponse = await client.Reports.GetReportsAsync(this.workspaceCollection, this.workspaceId);
+
+                var viewModel = new ReportListViewModel
+                {
+                    Items = new List<ReportViewModel>()
+                };
+
+                foreach (var report in reportsResponse.Value)
+                {
+                    viewModel.Items.Add(new ReportViewModel
+                    {
+                        Report = report,
+                        AccessToken = PowerBIToken.CreateReportEmbedToken(this.workspaceCollection, this.workspaceId, report.Id).ToString(this.accessKey)
+                    });
+                }
 
                 return View(viewModel);
             }

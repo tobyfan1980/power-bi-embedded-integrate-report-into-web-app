@@ -1,0 +1,8 @@
+﻿@model ReportListViewModel
+
+<div class="side-body padding-top">
+    @for (var i = 0; i < this.Model.Items.Count; i++)
+    {
+        @Html.PowerBIReportFor(m => m.Items[i].Report, new { style = "height:85vh", powerbi_access_token = Model.Items[i].AccessToken })
+    }
+</div>
