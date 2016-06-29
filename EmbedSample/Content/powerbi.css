@@ -3,7 +3,12 @@
     min-height: 300px;
 }
 
-[powerbi-report] {
+[powerbi-type="report"] {
     min-width: 800px;
     min-height: 600px;
+    height: 85vh;
+}
+
+[powerbi-type] iframe {
+    border: 1px solid #ccc;
 }

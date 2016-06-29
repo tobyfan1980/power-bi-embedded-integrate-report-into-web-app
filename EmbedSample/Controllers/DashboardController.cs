@@ -63,6 +63,8 @@ namespace paas_demo.Controllers
                     AccessToken = embedToken.Generate(this.accessKey)
                 };
 
+                viewModel.Report.EmbedUrl += "&unmin=1";
+
                 return View(viewModel);
             }
         }

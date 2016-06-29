@@ -3,9 +3,36 @@
 @section Breadcrumbs {
     <ol class="breadcrumb navbar-breadcrumb">
         <li>Reports</li>
-        <li class="active">@Model.Report.Name</li>
+        <li >@Model.Report.Name</li>
+        <li class="active" id="currentPage"></li>
     </ol>
 }
 <div class="side-body padding-top">
-    @Html.PowerBIReportFor(m => m.Report, new { style = "height:85vh", powerbi_access_token = Model.AccessToken })
+    <div id="pbiReport" powerbi-type="report" powerbi-embed-url="@Model.Report.EmbedUrl" powerbi-access-token="@Model.AccessToken"></div>
+    <script>
+        window.addEventListener('DOMContentLoaded', function (event) {
+            var elem = document.getElementById('pbiReport');
+            var report = powerbi.embed(elem);
+            var currentPage = document.getElementById('currentPage');
+
+            report.on('loaded', function () {
+                report.getPages().then(function (pages) {
+                    var index = 0;
+
+                    window.setInterval(function () {
+                        index++;
+                        if (index >= pages.length) {
+                            index = 0;
+                        }
+
+                        report.setPage(pages[index].name);
+                    }, 3000);
+                });
+            });
+
+            report.on('pageChanged', function(e) {
+                currentPage.innerText = e.newPage.displayName;
+            });
+        }, false);
+    </script>
 </div>
