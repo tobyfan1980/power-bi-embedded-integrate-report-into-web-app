@@ -3,35 +3,49 @@
 @section Breadcrumbs {
     <ol class="breadcrumb navbar-breadcrumb">
         <li>Reports</li>
-        <li >@Model.Report.Name</li>
+        <li>@Model.Report.Name</li>
         <li class="active" id="currentPage"></li>
     </ol>
 }
 <div class="side-body padding-top">
     <div id="pbiReport" powerbi-type="report" powerbi-embed-url="@Model.Report.EmbedUrl" powerbi-access-token="@Model.AccessToken"></div>
+    <button id="playPause" class="btn btn-primary">Play</button>
     <script>
         window.addEventListener('DOMContentLoaded', function (event) {
             var elem = document.getElementById('pbiReport');
             var report = powerbi.embed(elem);
             var currentPage = document.getElementById('currentPage');
+            var playPause = document.getElementById('playPause');
+            var interval = null;
+            var index = 0;
+            var reportPages = null;
 
             report.on('loaded', function () {
                 report.getPages().then(function (pages) {
-                    var index = 0;
-
-                    window.setInterval(function () {
-                        index++;
-                        if (index >= pages.length) {
-                            index = 0;
-                        }
-
-                        report.setPage(pages[index].name);
-                    }, 3000);
+                    reportPages = pages;
                 });
             });
 
-            report.on('pageChanged', function(e) {
+            report.on('pageChanged', function (e) {
                 currentPage.innerText = e.newPage.displayName;
+            });
+
+            playPause.addEventListener('click', function () {
+                if (interval) {
+                    window.clearInterval(interval);
+                    playPause.innerText = 'Play';
+                    interval = null;
+                } else {
+                    interval = window.setInterval(function () {
+                        index++;
+                        if (index >= reportPages.length) {
+                            index = 0;
+                        }
+
+                        report.setPage(reportPages[index].name);
+                    }, 3000);
+                    playPause.innerText = 'Pause';
+                }
             });
         }, false);
     </script>
