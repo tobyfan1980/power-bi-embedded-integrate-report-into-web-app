@@ -20,33 +20,41 @@
             var index = 0;
             var reportPages = null;
 
+            // Wait for the Power BI report to load
             report.on('loaded', function () {
+                // Get a list of pages available within the report
                 report.getPages().then(function (pages) {
                     reportPages = pages;
                 });
             });
 
+            // Page changed event is fired on both user interactions and SDK commands
             report.on('pageChanged', function (e) {
+                // Update the breadcrumb text
                 currentPage.innerText = e.newPage.displayName;
             });
 
             playPause.addEventListener('click', function () {
                 if (interval) {
                     window.clearInterval(interval);
-                    playPause.innerText = 'Play';
                     interval = null;
                 } else {
-                    interval = window.setInterval(function () {
-                        index++;
-                        if (index >= reportPages.length) {
-                            index = 0;
-                        }
-
-                        report.setPage(reportPages[index].name);
-                    }, 3000);
-                    playPause.innerText = 'Pause';
+                    gotoNextPage();
+                    interval = window.setInterval(gotoNextPage, 3000);
                 }
+
+                playPause.innerText = interval ? 'Pause' : 'Play';
             });
+
+            function gotoNextPage() {
+                index++;
+                if (index >= reportPages.length) {
+                    index = 0;
+                }
+
+                // Change the page on the report
+                report.setPage(reportPages[index].name);
+            }
         }, false);
     </script>
 </div>
