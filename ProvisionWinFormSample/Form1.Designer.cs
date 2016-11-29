@@ -28,18 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.txtNewWCName = new System.Windows.Forms.TextBox();
+            this.btnNewWC = new System.Windows.Forms.Button();
             this.lblSubscriptionId = new System.Windows.Forms.Label();
             this.txtSubscriptionId = new System.Windows.Forms.TextBox();
+            this.comboWorkspaces = new System.Windows.Forms.ComboBox();
             this.lblResourceGroup = new System.Windows.Forms.Label();
+            this.lblWorkspaces = new System.Windows.Forms.Label();
             this.txtResourceGroup = new System.Windows.Forms.TextBox();
+            this.btnLoadWC = new System.Windows.Forms.Button();
             this.lblWorkspaceCollection = new System.Windows.Forms.Label();
             this.comboWorkspaceCollections = new System.Windows.Forms.ComboBox();
-            this.btnLoadWC = new System.Windows.Forms.Button();
-            this.lblWorkspaces = new System.Windows.Forms.Label();
-            this.comboWorkspaces = new System.Windows.Forms.ComboBox();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblDatasetsTitle = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -47,7 +49,7 @@
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.btnEmbed = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
-            this.flowLayoutPanel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -55,32 +57,53 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel2);
+            this.flowLayoutPanel1.Controls.Add(this.panel1);
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel3);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(973, 647);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
-            // flowLayoutPanel2
+            // panel1
             // 
-            this.flowLayoutPanel2.Controls.Add(this.lblSubscriptionId);
-            this.flowLayoutPanel2.Controls.Add(this.txtSubscriptionId);
-            this.flowLayoutPanel2.Controls.Add(this.lblResourceGroup);
-            this.flowLayoutPanel2.Controls.Add(this.txtResourceGroup);
-            this.flowLayoutPanel2.Controls.Add(this.lblWorkspaceCollection);
-            this.flowLayoutPanel2.Controls.Add(this.comboWorkspaceCollections);
-            this.flowLayoutPanel2.Controls.Add(this.btnLoadWC);
-            this.flowLayoutPanel2.Controls.Add(this.lblWorkspaces);
-            this.flowLayoutPanel2.Controls.Add(this.comboWorkspaces);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(970, 114);
-            this.flowLayoutPanel2.TabIndex = 1;
+            this.panel1.Controls.Add(this.txtNewWCName);
+            this.panel1.Controls.Add(this.btnNewWC);
+            this.panel1.Controls.Add(this.lblSubscriptionId);
+            this.panel1.Controls.Add(this.txtSubscriptionId);
+            this.panel1.Controls.Add(this.comboWorkspaces);
+            this.panel1.Controls.Add(this.lblResourceGroup);
+            this.panel1.Controls.Add(this.lblWorkspaces);
+            this.panel1.Controls.Add(this.txtResourceGroup);
+            this.panel1.Controls.Add(this.btnLoadWC);
+            this.panel1.Controls.Add(this.lblWorkspaceCollection);
+            this.panel1.Controls.Add(this.comboWorkspaceCollections);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(970, 114);
+            this.panel1.TabIndex = 9;
+            // 
+            // txtNewWCName
+            // 
+            this.txtNewWCName.Enabled = false;
+            this.txtNewWCName.Location = new System.Drawing.Point(585, 55);
+            this.txtNewWCName.Name = "txtNewWCName";
+            this.txtNewWCName.Size = new System.Drawing.Size(366, 20);
+            this.txtNewWCName.TabIndex = 10;
+            // 
+            // btnNewWC
+            // 
+            this.btnNewWC.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnNewWC.Location = new System.Drawing.Point(504, 55);
+            this.btnNewWC.Name = "btnNewWC";
+            this.btnNewWC.Size = new System.Drawing.Size(75, 21);
+            this.btnNewWC.TabIndex = 9;
+            this.btnNewWC.Text = "New";
+            this.btnNewWC.UseVisualStyleBackColor = true;
+            this.btnNewWC.Click += new System.EventHandler(this.btnNewWC_Click);
             // 
             // lblSubscriptionId
             // 
-            this.lblSubscriptionId.Location = new System.Drawing.Point(3, 0);
+            this.lblSubscriptionId.Location = new System.Drawing.Point(6, 0);
             this.lblSubscriptionId.Name = "lblSubscriptionId";
             this.lblSubscriptionId.Size = new System.Drawing.Size(120, 13);
             this.lblSubscriptionId.TabIndex = 0;
@@ -88,31 +111,57 @@
             // 
             // txtSubscriptionId
             // 
-            this.flowLayoutPanel2.SetFlowBreak(this.txtSubscriptionId, true);
-            this.txtSubscriptionId.Location = new System.Drawing.Point(129, 3);
+            this.txtSubscriptionId.Location = new System.Drawing.Point(132, 3);
             this.txtSubscriptionId.Name = "txtSubscriptionId";
             this.txtSubscriptionId.Size = new System.Drawing.Size(366, 20);
             this.txtSubscriptionId.TabIndex = 1;
             // 
+            // comboWorkspaces
+            // 
+            this.comboWorkspaces.FormattingEnabled = true;
+            this.comboWorkspaces.Location = new System.Drawing.Point(132, 82);
+            this.comboWorkspaces.Name = "comboWorkspaces";
+            this.comboWorkspaces.Size = new System.Drawing.Size(366, 21);
+            this.comboWorkspaces.TabIndex = 7;
+            this.comboWorkspaces.SelectedIndexChanged += new System.EventHandler(this.comboWorkspaces_SelectedIndexChanged);
+            // 
             // lblResourceGroup
             // 
-            this.lblResourceGroup.Location = new System.Drawing.Point(3, 26);
+            this.lblResourceGroup.Location = new System.Drawing.Point(6, 26);
             this.lblResourceGroup.Name = "lblResourceGroup";
             this.lblResourceGroup.Size = new System.Drawing.Size(120, 13);
             this.lblResourceGroup.TabIndex = 2;
             this.lblResourceGroup.Text = "Resource Group";
             // 
+            // lblWorkspaces
+            // 
+            this.lblWorkspaces.Location = new System.Drawing.Point(6, 79);
+            this.lblWorkspaces.Name = "lblWorkspaces";
+            this.lblWorkspaces.Size = new System.Drawing.Size(120, 13);
+            this.lblWorkspaces.TabIndex = 6;
+            this.lblWorkspaces.Text = "Workspaces";
+            // 
             // txtResourceGroup
             // 
-            this.flowLayoutPanel2.SetFlowBreak(this.txtResourceGroup, true);
-            this.txtResourceGroup.Location = new System.Drawing.Point(129, 29);
+            this.txtResourceGroup.Location = new System.Drawing.Point(132, 29);
             this.txtResourceGroup.Name = "txtResourceGroup";
             this.txtResourceGroup.Size = new System.Drawing.Size(366, 20);
             this.txtResourceGroup.TabIndex = 3;
             // 
+            // btnLoadWC
+            // 
+            this.btnLoadWC.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnLoadWC.Location = new System.Drawing.Point(504, 28);
+            this.btnLoadWC.Name = "btnLoadWC";
+            this.btnLoadWC.Size = new System.Drawing.Size(75, 21);
+            this.btnLoadWC.TabIndex = 8;
+            this.btnLoadWC.Text = "Load";
+            this.btnLoadWC.UseVisualStyleBackColor = true;
+            this.btnLoadWC.Click += new System.EventHandler(this.btnLoadWC_Click);
+            // 
             // lblWorkspaceCollection
             // 
-            this.lblWorkspaceCollection.Location = new System.Drawing.Point(3, 52);
+            this.lblWorkspaceCollection.Location = new System.Drawing.Point(6, 52);
             this.lblWorkspaceCollection.Name = "lblWorkspaceCollection";
             this.lblWorkspaceCollection.Size = new System.Drawing.Size(120, 13);
             this.lblWorkspaceCollection.TabIndex = 4;
@@ -120,39 +169,11 @@
             // 
             // comboWorkspaceCollections
             // 
-            this.comboWorkspaceCollections.Location = new System.Drawing.Point(129, 55);
+            this.comboWorkspaceCollections.Location = new System.Drawing.Point(132, 55);
             this.comboWorkspaceCollections.Name = "comboWorkspaceCollections";
             this.comboWorkspaceCollections.Size = new System.Drawing.Size(366, 21);
             this.comboWorkspaceCollections.TabIndex = 5;
             this.comboWorkspaceCollections.SelectedIndexChanged += new System.EventHandler(this.comboWorkspaceCollections_SelectedIndexChanged);
-            // 
-            // btnLoadWC
-            // 
-            this.flowLayoutPanel2.SetFlowBreak(this.btnLoadWC, true);
-            this.btnLoadWC.Location = new System.Drawing.Point(501, 29);
-            this.btnLoadWC.Name = "btnLoadWC";
-            this.btnLoadWC.Size = new System.Drawing.Size(75, 23);
-            this.btnLoadWC.TabIndex = 8;
-            this.btnLoadWC.Text = "Load";
-            this.btnLoadWC.UseVisualStyleBackColor = true;
-            this.btnLoadWC.Click += new System.EventHandler(this.btnLoadWC_Click);
-            // 
-            // lblWorkspaces
-            // 
-            this.lblWorkspaces.Location = new System.Drawing.Point(3, 81);
-            this.lblWorkspaces.Name = "lblWorkspaces";
-            this.lblWorkspaces.Size = new System.Drawing.Size(120, 13);
-            this.lblWorkspaces.TabIndex = 6;
-            this.lblWorkspaces.Text = "Workspaces";
-            // 
-            // comboWorkspaces
-            // 
-            this.comboWorkspaces.FormattingEnabled = true;
-            this.comboWorkspaces.Location = new System.Drawing.Point(129, 84);
-            this.comboWorkspaces.Name = "comboWorkspaces";
-            this.comboWorkspaces.Size = new System.Drawing.Size(366, 21);
-            this.comboWorkspaces.TabIndex = 7;
-            this.comboWorkspaces.SelectedIndexChanged += new System.EventHandler(this.comboWorkspaces_SelectedIndexChanged);
             // 
             // flowLayoutPanel3
             // 
@@ -182,14 +203,14 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(3, 20);
             this.dataGridView1.Name = "dataGridView1";
@@ -241,8 +262,8 @@
             this.Text = "PowerBI PAAS Browser";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel2.ResumeLayout(false);
-            this.flowLayoutPanel2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -254,7 +275,6 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Label lblSubscriptionId;
         private System.Windows.Forms.TextBox txtSubscriptionId;
         private System.Windows.Forms.Label lblResourceGroup;
@@ -268,8 +288,11 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label lblReportsTitle;
         private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.Button btnLoadWC;
         private System.Windows.Forms.Button btnEmbed;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnLoadWC;
+        private System.Windows.Forms.Button btnNewWC;
+        private System.Windows.Forms.TextBox txtNewWCName;
     }
 }
 

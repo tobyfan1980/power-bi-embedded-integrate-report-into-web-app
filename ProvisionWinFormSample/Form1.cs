@@ -272,9 +272,54 @@ namespace ProvisionWinFormSample
             return result;
         }
 
+        /// <summary>
+        /// Creates a new Power BI Embedded workspace collection
+        /// </summary>
+        /// <param name="subscriptionId">The azure subscription id</param>
+        /// <param name="resourceGroup">The azure resource group</param>
+        /// <param name="workspaceCollectionName">The Power BI workspace collection name to create</param>
+        /// <returns></returns>
+        private async Task CreateWorkspaceCollection(string subscriptionId, string resourceGroup, string workspaceCollectionName)
+        {
+            var url = string.Format("{0}/subscriptions/{1}/resourceGroups/{2}/providers/Microsoft.PowerBI/workspaceCollections/{3}{4}", azureEndpointUri, subscriptionId, resourceGroup, workspaceCollectionName, version);
+
+            HttpClient client = new HttpClient();
+
+            using (client)
+            {
+                var content = new StringContent(@"{
+                                                ""location"": ""southcentralus"",
+                                                ""tags"": {},
+                                                ""sku"": {
+                                                    ""name"": ""S1"",
+                                                    ""tier"": ""Standard""
+                                                }
+                                            }", Encoding.UTF8);
+                content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
+
+                var request = new HttpRequestMessage(HttpMethod.Put, url);
+                // Set authorization header from you acquired Azure AD token
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetAzureAccessTokenAsync());
+                request.Content = content;
+
+                var response = await client.SendAsync(request);
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    var responseText = await response.Content.ReadAsStringAsync();
+                    var message = string.Format("Status: {0}, Reason: {1}, Message: {2}", response.StatusCode, response.ReasonPhrase, responseText);
+                    throw new Exception(message);
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                return;
+            }
+        }
+
         private async void btnLoadWC_Click(object sender, EventArgs e)
         { 
             this.comboWorkspaceCollections.Enabled = false;
+            this.txtNewWCName.Text = "";
+            this.txtNewWCName.Enabled = false;
 
             var responseContent = await GetWorkspaceCollections(this.txtSubscriptionId.Text, this.txtResourceGroup.Text);
             if (string.IsNullOrEmpty(responseContent))
@@ -295,12 +340,16 @@ namespace ProvisionWinFormSample
             this.comboWorkspaceCollections.ValueMember = "name";
 
             this.comboWorkspaceCollections.Enabled = true;
+            this.txtNewWCName.Enabled = true;
         }
-
+        bool LoadStarted = false;
         private async void LoadWorkspaces(string workspaceName)
         {
+            LoadStarted = true;
             try
             {
+                //Different Worckspace Collections have different keys, so we need to get the key again to make sure we have the proper one
+                accessKeys = await ListWorkspaceCollectionKeys(this.txtSubscriptionId.Text, this.txtResourceGroup.Text, CurrWorkspaceCollectionName); 
                 this.comboWorkspaces.Enabled = false;
                 var workspaces = await GetWorkspaces(workspaceName);
 
@@ -308,6 +357,7 @@ namespace ProvisionWinFormSample
                 {
                     this.comboWorkspaces.DataSource = null;
                     MessageBox.Show("no workspaces found in this workspace collection.");
+                    LoadStarted = false;
                     return;
                 }
 
@@ -322,6 +372,7 @@ namespace ProvisionWinFormSample
                 Console.WriteLine(ex);
                 MessageBox.Show("Error: " + ex.Message);
             }
+            LoadStarted = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -353,6 +404,10 @@ namespace ProvisionWinFormSample
         {
             if (!string.IsNullOrEmpty(CurrWorkspaceCollectionName))
             {
+                if (LoadStarted)
+                {
+                    return;
+                }
                 LoadWorkspaces(CurrWorkspaceCollectionName);
             }
         }
@@ -417,6 +472,26 @@ namespace ProvisionWinFormSample
             var embedSampleUrl = string.Format(embedSampleUrlFormat, HttpUtility.UrlEncode(embedUrl), reportId, token);
 
             Process.Start(embedSampleUrl);
+        }
+
+        private async void btnNewWC_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(string.IsNullOrWhiteSpace(this.txtNewWCName.Text))
+                {
+                    MessageBox.Show("Please enter a valid Workspace Collection name.");
+                    return;
+                }
+                await CreateWorkspaceCollection(this.txtSubscriptionId.Text, this.txtResourceGroup.Text, this.txtNewWCName.Text);
+                MessageBox.Show("Workspace Colloction "+ this.txtNewWCName.Text +" has been created successfully");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+                Console.WriteLine(ex); //for debugging
+            }
+            return;
         }
     }
 }
