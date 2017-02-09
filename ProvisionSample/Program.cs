@@ -23,7 +23,7 @@ namespace ProvisionSample
     partial class Program
     {
         const string version = "?api-version=2016-01-29";
-        const string armResource = "https://management.core.windows.net/";
+        const string armResource = "https://management.core.chinacloudapi.cn/";
         const string defaultRegion = "southcentralus";
 
         static string apiEndpointUri = ConfigurationManager.AppSettings["powerBiApiEndpoint"];
